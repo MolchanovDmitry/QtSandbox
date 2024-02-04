@@ -17,6 +17,9 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+public slots:
+    void onTableClicked(const QModelIndex &index);
+
 private slots:
 
     void on_open_db_triggered();
