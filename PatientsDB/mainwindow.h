@@ -17,6 +17,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+    void updatePatientLabel(const QSqlRecord &record);
+
 public slots:
     void onTableClicked(const QModelIndex &index);
 
@@ -30,7 +32,8 @@ private slots:
 
 private:
 
-    QSqlQueryModel* model;
+    QSqlQueryModel* patientsModel;
+    QSqlQueryModel* researchModel;
 
     Ui::MainWindow *ui;
 };
