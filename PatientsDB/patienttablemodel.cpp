@@ -17,12 +17,9 @@ QVariant PatientTableModel::headerData(int section, Qt::Orientation orientation,
 {
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
-        case SURNAME_COLUMN:
-            return "Фамилия";
-        case BIRTHDAY_COLUMN:
-            return "Дата рождения";
-        case AGE_COLUMN:
-            return "Возраст";
+        case SURNAME_COLUMN: return "Фамилия";
+        case BIRTHDAY_COLUMN: return "Дата рождения";
+        case AGE_COLUMN: return "Возраст";
         }
     }
 

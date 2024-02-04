@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSqlQueryModel>
+#include "researchtablemodel.h"
 #include "patienttablemodel.h"
 
 QT_BEGIN_NAMESPACE
@@ -34,7 +34,7 @@ private slots:
 private:
 
     PatientTableModel* patientsModel;
-    QSqlQueryModel* researchModel;
+    ResearchTableModel* researchModel;
 
     Ui::MainWindow *ui;
 };

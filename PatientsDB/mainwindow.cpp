@@ -6,6 +6,7 @@
 #include "QtSql/QSqlError"
 #include "QtSql/QSqlQueryModel"
 #include "QFileInfo"
+#include "researchtablemodel.h"
 #include <QFileDialog>
 #include <QTableView>
 #include <QStandardItemModel>
@@ -30,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->patientTableView->setModel(patientsModel);
     ui->patientTableView->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 
-    researchModel = new QSqlQueryModel(this);
+    researchModel = new ResearchTableModel(this);
     ui->researchTableView->setModel(researchModel);
 
     QObject::connect(ui->patientTableView, &QTableView::clicked, this, &MainWindow::onTableClicked);
@@ -91,21 +92,12 @@ void MainWindow::onTableClicked(const QModelIndex &index) {
         auto record = patientsModel->record(index.row());
         auto patientName = record.value(0);
 
-        qDebug()<<"Выбранная запись: "<<record;
-        qDebug()<<"Выбранный пациент: "<<patientName.toString();
-
-
         QSqlQuery query;
         query.prepare(researchQuery);
         query.bindValue(":patient_name", patientName.toString());
         query.exec();
 
         researchModel->setQuery(query);
-        researchModel->setHeaderData(0, Qt::Orientation::Horizontal, QObject::tr("Доктор"));
-        researchModel->setHeaderData(1, Qt::Orientation::Horizontal, QObject::tr("Дата исследования"));
-        researchModel->setHeaderData(2, Qt::Orientation::Horizontal, QObject::tr("Возраст"));
-        researchModel->setHeaderData(3, Qt::Orientation::Horizontal, QObject::tr("Диагноз"));
-        researchModel->setHeaderData(4, Qt::Orientation::Horizontal, QObject::tr("Назначения"));
         ui->researchTableView->resizeColumnsToContents();
 
         updatePatientLabel(record);

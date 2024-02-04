@@ -11,11 +11,13 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    patienttablemodel.cpp
+    patienttablemodel.cpp \
+    researchtablemodel.cpp
 
 HEADERS += \
     mainwindow.h \
-    patienttablemodel.h
+    patienttablemodel.h \
+    researchtablemodel.h
 
 FORMS += \
     mainwindow.ui
