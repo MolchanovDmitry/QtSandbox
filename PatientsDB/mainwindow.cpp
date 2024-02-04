@@ -55,7 +55,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_open_db_triggered()
 {
-    initUiWithDb("./../INTFETAL.sqlite");
+    initUiWithDb("./INTFETAL.sqlite");
 }
 
 
