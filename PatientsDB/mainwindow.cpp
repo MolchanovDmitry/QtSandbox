@@ -16,10 +16,19 @@
 #include <QSqlRecord>
 #include <QSqlQuery>
 
-const static int MESSAGE_HIDE_DELAY_LONG = 4000;
 const static int MESSAGE_HIDE_DELAY_SHORT = 2000;
-const static QString allPatientsQuery = QString("SELECT NAME, BIRTHDAY, BIRTHDAY FROM PATIENTS WHERE BIRTHDAY != \'\'");
-const static QString researchQuery = QString("SELECT r.DOCTOR, r.RES_DATE, r.AGE, r.DIAG, r.MEMO FROM ( SELECT * FROM RESEARCH WHERE trim(lower(PATIENT)) == trim(lower(:patient_name)) ) as r LEFT JOIN PATIENTS AS p ON trim(lower(p.name)) == trim(lower(r.PATIENT));");
+const static int MESSAGE_HIDE_DELAY_LONG = 4000;
+
+const static QString PATIENT_NAME_ARG = ":patient_name";
+
+const static QString allPatientsQuery = QString("SELECT NAME, BIRTHDAY, BIRTHDAY "
+                                                "FROM PATIENTS "
+                                                "WHERE BIRTHDAY != \'\'");
+
+const static QString researchQuery = QString("SELECT r.DOCTOR, r.RES_DATE, r.AGE, r.DIAG, r.MEMO "
+                                             "FROM ( SELECT * FROM RESEARCH WHERE trim(lower(PATIENT)) == trim(lower(%1)) ) as r "
+                                             "LEFT JOIN PATIENTS AS p "
+                                             "ON trim(lower(p.name)) == trim(lower(r.PATIENT));").arg(PATIENT_NAME_ARG);
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -35,8 +44,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->researchTableView->setModel(researchModel);
 
     QObject::connect(ui->patientTableView, &QTableView::clicked, this, &MainWindow::onTableClicked);
-
-    on_open_db_triggered(); // TODO удалить
 
 }
 
@@ -61,7 +68,7 @@ void MainWindow::on_action_triggered()
                 "file:///",
                 tr("SQLite Database Files (*.sqlite)")
                 );
-    ui->statusbar->showMessage("Выбрана база данных " + externalDbPath, MESSAGE_HIDE_DELAY_SHORT);
+    showMessage("Выбрана база данных " + externalDbPath, MESSAGE_HIDE_DELAY_SHORT);
 
     initUiWithDb(externalDbPath);
 
@@ -69,16 +76,19 @@ void MainWindow::on_action_triggered()
 
 void MainWindow::initUiWithDb(QString dbPath){
     if(!QFileInfo::exists(dbPath)) {
-        ui->statusbar->showMessage("При подключении к базе данных произошла ошибка: Отсутствует файл базы данных по пути " + dbPath);
+        showMessage("При подключении к базе данных произошла ошибка: Отсутствует файл базы данных по пути "
+                    + dbPath);
         return;
     }
 
     auto dbConnect = QSqlDatabase::addDatabase("QSQLITE");
     dbConnect.setDatabaseName(dbPath);
     if(dbConnect.open()) {
-        ui->statusbar->showMessage("Вы успешно подключились к базе данных " + dbConnect.databaseName(), MESSAGE_HIDE_DELAY_LONG);
+        showMessage("Вы успешно подключились к базе данных "
+                    + dbConnect.databaseName(), MESSAGE_HIDE_DELAY_LONG);
     } else {
-        ui->statusbar->showMessage("При подключении к базе данных произошла ошибка: " + dbConnect.lastError().databaseText(), MESSAGE_HIDE_DELAY_LONG);
+        showMessage("При подключении к базе данных произошла ошибка: "
+                    + dbConnect.lastError().databaseText(), MESSAGE_HIDE_DELAY_LONG);
     }
 
     patientsModel->setQuery(allPatientsQuery);
@@ -86,7 +96,6 @@ void MainWindow::initUiWithDb(QString dbPath){
 }
 
 void MainWindow::onTableClicked(const QModelIndex &index) {
-
     if (index.isValid()) {
 
         auto record = patientsModel->record(index.row());
@@ -94,7 +103,7 @@ void MainWindow::onTableClicked(const QModelIndex &index) {
 
         QSqlQuery query;
         query.prepare(researchQuery);
-        query.bindValue(":patient_name", patientName.toString());
+        query.bindValue(PATIENT_NAME_ARG, patientName.toString());
         query.exec();
 
         researchModel->setQuery(query);
@@ -103,7 +112,7 @@ void MainWindow::onTableClicked(const QModelIndex &index) {
         updatePatientLabel(record);
 
     } else {
-        ui->statusbar->showMessage("Невалидный индекс", MESSAGE_HIDE_DELAY_LONG);
+        showMessage("Невалидный индекс", MESSAGE_HIDE_DELAY_LONG);
     }
 }
 
@@ -114,7 +123,13 @@ void MainWindow::updatePatientLabel(const QSqlRecord &record) {
     auto totalInfo = QString("Фамилия: %1\n"
                              "Дата рождения: %2\n"
                              "Количество проведенных исследований: %3"
-                            ).arg(patientName).arg(patientName).arg(researchCount);
+                            )
+            .arg(patientName)
+            .arg(patientName)
+            .arg(researchCount);
     ui->patientInfo->setText(totalInfo);
 }
 
+void MainWindow::showMessage(const QString &text, int timeout ){
+    ui->statusbar->showMessage(text, timeout);
+}

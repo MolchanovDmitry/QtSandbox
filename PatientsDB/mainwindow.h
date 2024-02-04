@@ -18,8 +18,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-    void updatePatientLabel(const QSqlRecord &record);
-
 public slots:
     void onTableClicked(const QModelIndex &index);
 
@@ -30,6 +28,10 @@ private slots:
     void on_action_triggered();
 
     void initUiWithDb(QString path);
+
+    void updatePatientLabel(const QSqlRecord &record);
+
+    void showMessage(const QString &text, int timeout = 0);
 
 private:
 

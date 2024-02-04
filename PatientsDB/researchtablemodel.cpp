@@ -19,7 +19,7 @@ QVariant ResearchTableModel::headerData(int section, Qt::Orientation orientation
         case RESEARCH_COLUMN:  return "Дата рождения";
         case AGE_COLUMN: return "Возраст";
         case DIAGNOSIS_COLUMN: return "Диагноз";
-        case MEMO_COLUMN: return "Назначениу";
+        case MEMO_COLUMN: return "Назначение";
         }
     }
 
