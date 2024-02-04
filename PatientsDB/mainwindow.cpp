@@ -17,7 +17,7 @@
 
 const static int MESSAGE_HIDE_DELAY_LONG = 4000;
 const static int MESSAGE_HIDE_DELAY_SHORT = 2000;
-const static QString allPatientsQuery = QString("SELECT NAME, BIRTHDAY FROM PATIENTS WHERE BIRTHDAY != \'\'");
+const static QString allPatientsQuery = QString("SELECT NAME, BIRTHDAY, BIRTHDAY FROM PATIENTS WHERE BIRTHDAY != \'\'");
 const static QString researchQuery = QString("SELECT r.DOCTOR, r.RES_DATE, r.AGE, r.DIAG, r.MEMO FROM ( SELECT * FROM RESEARCH WHERE trim(lower(PATIENT)) == trim(lower(:patient_name)) ) as r LEFT JOIN PATIENTS AS p ON trim(lower(p.name)) == trim(lower(r.PATIENT));");
 
 MainWindow::MainWindow(QWidget *parent)
@@ -26,7 +26,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    patientsModel = new QSqlQueryModel(this);
+    patientsModel = new PatientTableModel(this);
     ui->patientTableView->setModel(patientsModel);
     ui->patientTableView->setSelectionMode(QAbstractItemView::SelectionMode::SingleSelection);
 
@@ -81,8 +81,6 @@ void MainWindow::initUiWithDb(QString dbPath){
     }
 
     patientsModel->setQuery(allPatientsQuery);
-    patientsModel->setHeaderData(0, Qt::Orientation::Horizontal, QObject::tr("Имя"));
-    patientsModel->setHeaderData(1, Qt::Orientation::Horizontal, QObject::tr("Дата рождения"));
     ui->patientTableView->resizeColumnsToContents();
 }
 
@@ -93,6 +91,7 @@ void MainWindow::onTableClicked(const QModelIndex &index) {
         auto record = patientsModel->record(index.row());
         auto patientName = record.value(0);
 
+        qDebug()<<"Выбранная запись: "<<record;
         qDebug()<<"Выбранный пациент: "<<patientName.toString();
 
 

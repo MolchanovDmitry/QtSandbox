@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSqlQueryModel>
+#include "patienttablemodel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -32,7 +33,7 @@ private slots:
 
 private:
 
-    QSqlQueryModel* patientsModel;
+    PatientTableModel* patientsModel;
     QSqlQueryModel* researchModel;
 
     Ui::MainWindow *ui;
