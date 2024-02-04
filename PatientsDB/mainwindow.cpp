@@ -21,11 +21,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     model = new QSqlQueryModel(this);
 
-
     ui->tableView->setModel(model);
-
-    //QStandardItemModel::setHorizontalHeaderLabels();
-
 
     on_open_db_triggered(); // TODO удалить
 
@@ -73,5 +69,8 @@ void MainWindow::initUiWithDb(QString dbPath){
     }
 
     model->setQuery("SELECT * FROM patients");
+    model->setHeaderData(0, Qt::Orientation::Horizontal, QObject::tr("Имя"));
+    model->setHeaderData(1, Qt::Orientation::Horizontal, QObject::tr("Дата рождения"));
+    ui->tableView->resizeColumnsToContents();
 }
 
