@@ -16,7 +16,7 @@ QVariant ResearchTableModel::headerData(int section, Qt::Orientation orientation
     if (role == Qt::DisplayRole && orientation == Qt::Horizontal) {
         switch (section) {
         case DOCTOR_COLUMN: return "Фамилия";
-        case RESEARCH_COLUMN:  return "Дата рождения";
+        case RESEARCH_COLUMN:  return "Дата исследования";
         case AGE_COLUMN: return "Возраст";
         case DIAGNOSIS_COLUMN: return "Диагноз";
         case MEMO_COLUMN: return "Назначение";
