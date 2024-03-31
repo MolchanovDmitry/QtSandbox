@@ -1,0 +1,13 @@
+[Desktop Entry]
+Type=Application
+X-Nemo-Application-Type=silica-qt5
+Icon=ru.auroraos.Notifier
+Exec=/usr/bin/ru.auroraos.Notifier
+Name=Notifier
+Name[ru]=Уведомлятор
+
+[X-Application]
+Permissions=PushNotifications
+OrganizationName=ru.auroraos
+ApplicationName=Notifier
+ExecDBus=/usr/bin/ru.auroraos.Notifier

@@ -38,9 +38,21 @@
 import QtQuick 2.0
 import Sailfish.Silica 1.0
 
-ApplicationWindow {
-    objectName: "applicationWindow"
-    initialPage: Qt.resolvedUrl("pages/MainPage.qml")
-    cover: Qt.resolvedUrl("cover/DefaultCoverPage.qml")
-    allowedOrientations: defaultAllowedOrientations
+Page {
+    objectName: "mainPage"
+    allowedOrientations: Orientation.All
+
+    PageHeader {
+        objectName: "pageHeader"
+        title: qsTr("Registration")
+        extraContent.children: [
+            IconButton {
+                objectName: "aboutButton"
+                icon.source: "image://theme/icon-m-about"
+                anchors.verticalCenter: parent.verticalCenter
+
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+        ]
+    }
 }

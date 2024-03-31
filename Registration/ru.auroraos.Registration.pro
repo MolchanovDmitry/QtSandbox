@@ -48,9 +48,6 @@ SOURCES += \
 HEADERS += \
 
 DISTFILES += \
-    qml/pages/FirstRegistrationPage.qml \
-    qml/pages/SecondRegistrationPage.qml \
-    qml/pages/SuccessPage.qml \
     rpm/ru.auroraos.Registration.spec \
     AUTHORS.md \
     CODE_OF_CONDUCT.md \
@@ -59,6 +56,8 @@ DISTFILES += \
     README.md \
     qml/Registration.qml \
     qml/cover/DefaultCoverPage.qml \
+    qml/pages/AboutPage.qml \
+    qml/pages/MainPage.qml \
 
 AURORAAPP_ICONS = 86x86 108x108 128x128 172x172
 

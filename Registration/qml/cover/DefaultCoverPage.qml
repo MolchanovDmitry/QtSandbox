@@ -2,7 +2,7 @@
 **
 ** Copyright (C) 2022 ru.auroraos
 **
-** This file is part of the Моё приложение для ОС Аврора project.
+** This file is part of the Симуляция регистрации project.
 **
 ** Redistribution and use in source and binary forms,
 ** with or without modification, are permitted provided
@@ -43,9 +43,9 @@ CoverBackground {
 
     CoverPlaceholder {
         objectName: "placeholder"
-        text: qsTr("Регистрация")
+        text: qsTr("Registration")
         icon {
-            source: Qt.resolvedUrl("../icons/Registration.png")
+            source: Qt.resolvedUrl("../icons/Registration.svg")
             sourceSize { width: icon.width; height: icon.height }
         }
         forceFit: true
