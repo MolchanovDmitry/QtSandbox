@@ -6,15 +6,14 @@ Dialog {
     objectName: "aboutPage"
     allowedOrientations: Orientation.All
 
-    property int noteId : null
-    property string note : null
-    property date date : null
-
+    property int noteId: null
+    property string note: null
+    property date date: null
     Column {
         anchors.fill: parent
         DialogHeader {
-            acceptText: "Сохранить"
-            cancelText: "Отменить"
+            acceptText: qsTr("Save")
+            cancelText: qsTr("Cancel")
         }
 
         Button {
@@ -23,8 +22,8 @@ Dialog {
             id: button
             text: {
                 console.log("date " + date)
-                var buttonText = "Выберите дату"
-                if(!isNaN(date)){
+                var buttonText = qsTr("select_date")
+                if (!isNaN(date)) {
                     buttonText = date
                     pickedDate = date
                 }
@@ -34,12 +33,11 @@ Dialog {
 
             onClicked: {
                 var dialog = pageStack.push(pickerComponent, {
-                    date: new Date()
-                })
-                dialog.accepted.connect(function() {
+                                                "date": new Date()
+                                            })
+                dialog.accepted.connect(function () {
                     pickedDate = dialog.date
                     button.text = dialog.dateText
-
                 })
             }
 
@@ -51,7 +49,7 @@ Dialog {
 
         TextArea {
             id: noteArea
-            placeholderText: "Введите заметку"
+            placeholderText: qsTr("note_input")
             text: note
         }
     }

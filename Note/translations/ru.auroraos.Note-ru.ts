@@ -2,29 +2,52 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="ru">
 <context>
+    <name>CreateNoteDialog</name>
+    <message>
+        <source>Save</source>
+        <translation>Сохранить</translation>
+    </message>
+    <message>
+        <source>Cancel</source>
+        <translation>Отмена</translation>
+    </message>
+    <message>
+        <source>select_date</source>
+        <translation>Выберите дату</translation>
+    </message>
+    <message>
+        <source>note_input</source>
+        <translation>Введите текст заметки</translation>
+    </message>
+</context>
+<context>
     <name>DefaultCoverPage</name>
     <message>
-        <location filename="../qml/cover/DefaultCoverPage.qml" line="9"/>
         <source>Note</source>
-        <translation>Заметки</translation>
+        <translation>Note</translation>
     </message>
 </context>
 <context>
     <name>MainPage</name>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="18"/>
-        <source>Изменить</source>
-        <translation type="unfinished"></translation>
+        <source>Change</source>
+        <translation>Изменить</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="30"/>
-        <source>Удалить</source>
-        <translation type="unfinished"></translation>
+        <source>Delete</source>
+        <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../qml/pages/MainPage.qml" line="51"/>
-        <source>Список заметок</source>
-        <translation type="unfinished"></translation>
+        <source>Add_note</source>
+        <translation>Добавить заметку</translation>
+    </message>
+    <message>
+        <source>invalid_text_or_date_message</source>
+        <translation>Некорректный текст или дата заметки</translation>
+    </message>
+    <message>
+        <source>NoteList</source>
+        <translation>Список заметок</translation>
     </message>
 </context>
 </TS>

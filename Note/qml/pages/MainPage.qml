@@ -9,32 +9,36 @@ Page {
 
     SilicaListView {
         anchors.fill: parent
-        model: ListModel { id: noteModel }
+        model: ListModel {
+            id: noteModel
+        }
 
         delegate: ListItem {
 
             menu: ContextMenu {
-                 MenuItem {
-                    text: qsTr("Изменить")
+                MenuItem {
+                    text: qsTr("Change")
                     onClicked: {
                         var dialog = pageStack.push(
-                                    Qt.resolvedUrl("CreateNoteDialog.qml"),
-                                    { "noteId" : noteId, "note" : noteText, "date" : noteDate }
-                                    )
+                                    Qt.resolvedUrl("CreateNoteDialog.qml"), {
+                                        "noteId": noteId,
+                                        "note": noteText,
+                                        "date": noteDate
+                                    })
                         dialog.onAccepted.connect(function () {
-                            onDialogResult(dialog.noteId, dialog.date, dialog.note)
-                        });
+                            onDialogResult(dialog.noteId, dialog.date,
+                                           dialog.note)
+                        })
                     }
-                 }
-                 MenuItem {
-                    text: qsTr("Удалить")
+                }
+                MenuItem {
+                    text: qsTr("Delete")
                     onClicked: {
                         JS.dbRemove(noteId)
                         updateNoteList()
                     }
-                 }
-             }
-
+                }
+            }
 
             Column {
                 Label {
@@ -48,18 +52,19 @@ Page {
 
         header: PageHeader {
             objectName: "pageHeader"
-            title: qsTr("Список заметок")
+            title: qsTr("NoteList")
         }
 
         PullDownMenu {
             quickSelect: true
             MenuItem {
-                text: "Добавить заметку"
+                text: qsTr("Add_note")
                 onClicked: {
-                    var dialog = pageStack.push(Qt.resolvedUrl("CreateNoteDialog.qml"))
+                    var dialog = pageStack.push(Qt.resolvedUrl(
+                                                    "CreateNoteDialog.qml"))
                     dialog.onAccepted.connect(function () {
                         onDialogResult(null, dialog.date, dialog.note)
-                    });
+                    })
                 }
             }
         }
@@ -72,26 +77,22 @@ Page {
 
     /** Обновляем список заметок на экране. В идеале нужна привязка через модель. */
     function updateNoteList() {
-      return JS.dbReadAll()
+        return JS.dbReadAll()
     }
 
     /** Обрабатываем результат закрывшегося диалога */
-    function onDialogResult(noteId, noteDate, noteText){
+    function onDialogResult(noteId, noteDate, noteText) {
         console.log("id: " + noteId)
         console.log("date: " + noteDate)
         console.log("text: " + noteText)
 
-        if(isNaN(noteDate) === true || !noteText) {
-            Notices.show(
-                  "Дата или текст заметки навалидны",
-                  Notice.Short,
-                  Notice.Bottom,
-                  0,
-                  -Theme.horizontalPageMargin
-            )
+        if (isNaN(noteDate) === true || !noteText) {
+            var message = qsTr("invalid_text_or_date_message")
+            Notices.show(message, Notice.Short, Notice.Bottom, 0,
+                         -Theme.horizontalPageMargin)
         } else {
-            if(noteId){
-               JS.dbUpdate(noteId, noteDate, noteText)
+            if (noteId) {
+                JS.dbUpdate(noteId, noteDate, noteText)
             } else {
                 JS.dbInsert(noteDate, noteText)
             }
